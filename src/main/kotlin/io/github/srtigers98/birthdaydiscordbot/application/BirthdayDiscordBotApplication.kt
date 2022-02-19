@@ -3,8 +3,7 @@ package io.github.srtigers98.birthdaydiscordbot.application
 import dev.kord.core.Kord
 import dev.kord.core.event.message.MessageCreateEvent
 import dev.kord.core.on
-import io.github.srtigers98.birthdaydiscordbot.application.exception.BirthdayInFutureException
-import io.github.srtigers98.birthdaydiscordbot.application.service.BirthdayService
+import io.github.srtigers98.birthdaydiscordbot.application.service.MessageService
 import kotlinx.coroutines.runBlocking
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -18,7 +17,7 @@ import org.springframework.scheduling.annotation.EnableScheduling
 @EnableScheduling
 class BirthdayDiscordBotApplication(
   @Value("\${bot.token}") private val token: String,
-  private val birthdayService: BirthdayService
+  private val messageService: MessageService
 ) : CommandLineRunner {
 
   private val log: Logger = LoggerFactory.getLogger(BirthdayDiscordBotApplication::class.java)
@@ -27,21 +26,8 @@ class BirthdayDiscordBotApplication(
     val client = Kord(token)
 
     client.on<MessageCreateEvent> {
-      if (!message.content.startsWith("!") || message.author?.isBot == true) {
-        return@on
-      }
-
-      if (Regex("!bdayIs \\d{4}-\\d{2}-\\d{2}").matches(message.content)) {
-        try {
-          birthdayService.save(message, message.content.split(" ")[1])
-          log.info("Birthday for user ${message.author?.username} saved successfully!")
-          message.channel.createMessage("Hey ${message.author?.mention}, your birthday was saved successfully!")
-        } catch (e: BirthdayInFutureException) {
-          e.message?.let {
-            log.warn(it)
-            message.channel.createMessage("${message.author?.mention} $it")
-          }
-        }
+      if (message.content.startsWith("!") && message.author?.isBot == false) {
+        messageService.handleMessage(message)
       }
     }
 
