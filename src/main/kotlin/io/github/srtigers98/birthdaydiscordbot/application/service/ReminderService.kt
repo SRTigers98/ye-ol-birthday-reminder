@@ -16,15 +16,19 @@ class ReminderService(
 
   private val client: RestClient = RestClient(token)
 
-  @Scheduled(cron = "0 0 12 * * *")
+  @Scheduled(cron = "0 * * * * *")
   fun checkForBirthday() {
-    val birthdays = birthdayService.checkForBirthdayOn(LocalDate.now())
+    val today = LocalDate.now()
+    val birthdays = birthdayService.checkForBirthdayOn(today)
 
     birthdays.forEach {
       runBlocking {
         val channelId = Snowflake(it.channelId)
         val msg = client.channel.createMessage(channelId) {
-          content = "Happy Birthday ${it.mention}"
+          content = """
+            |Happy Birthday ${it.mention}!
+            |Congratulations to your ${today.year - it.birthdayYear}. birthday!
+          """.trimMargin()
         }
         client.channel.createReaction(channelId, msg.id, "\uD83E\uDD73")
       }
