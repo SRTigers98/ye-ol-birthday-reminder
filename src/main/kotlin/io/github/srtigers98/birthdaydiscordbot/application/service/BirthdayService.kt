@@ -32,4 +32,11 @@ class BirthdayService(
 
     birthdayRepository.save(birthday)
   }
+
+  fun checkForBirthdayOn(date: LocalDate): List<Birthday> {
+    return birthdayRepository.findByBirthdayMonthIsAndBirthdayDayIs(
+      date.monthValue,
+      date.dayOfMonth
+    )
+  }
 }
