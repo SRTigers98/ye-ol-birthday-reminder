@@ -9,11 +9,12 @@ plugins {
 }
 
 group = "io.github.srtigers98.birthdaydiscordbot"
-version = "0.0.1-SNAPSHOT"
+version = "1.0.0-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_17
 
 repositories {
   mavenCentral()
+  maven("https://oss.sonatype.org/content/repositories/snapshots")
 }
 
 dependencies {
@@ -21,8 +22,12 @@ dependencies {
   implementation("org.springframework.boot:spring-boot-starter-data-jpa")
   implementation("org.jetbrains.kotlin:kotlin-reflect")
   implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+  implementation("dev.kord:kord-core:0.8.0-M9")
+
   developmentOnly("org.springframework.boot:spring-boot-devtools")
+
   runtimeOnly("com.h2database:h2")
+
   testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
