@@ -3,6 +3,6 @@ package io.github.srtigers98.birthdaydiscordbot.application.dto
 import java.io.Serializable
 
 data class BirthdayId(
-  val userId: String,
-  val channelId: String
+  val userId: String = "",
+  val channelId: String = ""
 ) : Serializable
