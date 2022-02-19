@@ -11,8 +11,10 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
+import org.springframework.scheduling.annotation.EnableScheduling
 
 @SpringBootApplication
+@EnableScheduling
 class BirthdayDiscordBotApplication(
   @Value("\${bot.token}") private val token: String,
   private val birthdayService: BirthdayService
