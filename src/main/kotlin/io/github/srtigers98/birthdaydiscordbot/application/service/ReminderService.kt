@@ -16,7 +16,7 @@ class ReminderService(
 
   private val client: RestClient = RestClient(token)
 
-  @Scheduled(cron = "0 * * * * *")
+  @Scheduled(cron = "0 0 12 * * *")
   fun checkForBirthday() {
     val today = LocalDate.now()
     val birthdays = birthdayService.checkForBirthdayOn(today)
