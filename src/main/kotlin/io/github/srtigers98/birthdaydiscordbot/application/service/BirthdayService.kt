@@ -25,7 +25,9 @@ class BirthdayService(
       userId,
       channelId,
       mention,
-      birthdayDate
+      birthdayDate.year,
+      birthdayDate.monthValue,
+      birthdayDate.dayOfMonth
     )
 
     birthdayRepository.save(birthday)
