@@ -3,6 +3,7 @@ package io.github.srtigers98.birthdaydiscordbot.application
 import dev.kord.core.Kord
 import dev.kord.core.event.message.MessageCreateEvent
 import dev.kord.core.on
+import io.github.srtigers98.birthdaydiscordbot.application.exception.BirthdayInFutureException
 import io.github.srtigers98.birthdaydiscordbot.application.service.BirthdayService
 import kotlinx.coroutines.runBlocking
 import org.slf4j.Logger
@@ -31,9 +32,16 @@ class BirthdayDiscordBotApplication(
       }
 
       if (Regex("!bdayIs \\d{4}-\\d{2}-\\d{2}").matches(message.content)) {
-        birthdayService.save(message, message.content.split(" ")[1])
-        log.info("Birthday for user ${message.author?.username} saved successfully!")
-        message.channel.createMessage("Hey ${message.author?.mention}, your birthday was saved successfully!")
+        try {
+          birthdayService.save(message, message.content.split(" ")[1])
+          log.info("Birthday for user ${message.author?.username} saved successfully!")
+          message.channel.createMessage("Hey ${message.author?.mention}, your birthday was saved successfully!")
+        } catch (e: BirthdayInFutureException) {
+          e.message?.let {
+            log.warn(it)
+            message.channel.createMessage("${message.author?.mention} $it")
+          }
+        }
       }
     }
 
