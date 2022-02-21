@@ -1,0 +1,29 @@
+name: Build
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    types: [ opened, synchronize, reopened ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup gradlew
+        run: chmod +x ./gradlew
+
+      - name: Build
+        run: ./gradlew build
+      
+      - name: Boot Jar
+        run: ./gradlew clean bootJar
+      
+      - name: Upload Boot Jar
+        uses: actions/upload-artifact@v2.3.1
+        with:
+          path: build/libs/birthday-discord-bot*.jar
