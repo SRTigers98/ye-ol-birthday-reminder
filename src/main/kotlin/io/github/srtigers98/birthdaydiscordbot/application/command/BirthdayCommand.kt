@@ -1,6 +1,6 @@
 package io.github.srtigers98.birthdaydiscordbot.application.command
 
-import dev.kord.core.entity.interaction.ChatInputCommandInvocationInteraction
+import dev.kord.core.entity.interaction.ChatInputCommandInteraction
 import dev.kord.rest.builder.interaction.ChatInputCreateBuilder
 import dev.kord.rest.json.request.InteractionResponseCreateRequest
 
@@ -11,5 +11,5 @@ abstract class BirthdayCommand(
 
   abstract fun builder(): ChatInputCreateBuilder.() -> Unit
 
-  abstract fun handleCommand(interaction: ChatInputCommandInvocationInteraction): InteractionResponseCreateRequest
+  abstract fun handleCommand(interaction: ChatInputCommandInteraction): InteractionResponseCreateRequest
 }

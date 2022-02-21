@@ -2,7 +2,7 @@ package io.github.srtigers98.birthdaydiscordbot.application.command
 
 import dev.kord.common.entity.InteractionResponseType
 import dev.kord.common.entity.optional.Optional
-import dev.kord.core.entity.interaction.ChatInputCommandInvocationInteraction
+import dev.kord.core.entity.interaction.ChatInputCommandInteraction
 import dev.kord.rest.builder.interaction.ChatInputCreateBuilder
 import dev.kord.rest.builder.interaction.StringChoiceBuilder
 import dev.kord.rest.json.request.InteractionApplicationCommandCallbackData
@@ -25,7 +25,7 @@ class BirthdaySaveCommand(
     )
   }
 
-  override fun handleCommand(interaction: ChatInputCommandInvocationInteraction): InteractionResponseCreateRequest {
+  override fun handleCommand(interaction: ChatInputCommandInteraction): InteractionResponseCreateRequest {
     val birthday = interaction.command.options.getValue("birthday").value as String
     val response = saveBirthday(
       interaction.user.id.toString(),
