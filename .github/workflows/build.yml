@@ -26,4 +26,5 @@ jobs:
       - name: Upload Boot Jar
         uses: actions/upload-artifact@v2.3.1
         with:
+          name: birthday-discord-bot
           path: build/libs/birthday-discord-bot*.jar
