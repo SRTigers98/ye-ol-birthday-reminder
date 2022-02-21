@@ -5,6 +5,7 @@ import io.github.srtigers98.birthdaydiscordbot.application.exception.BirthdayInF
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
+import java.time.format.DateTimeParseException
 
 @Service
 class MessageService(
@@ -24,6 +25,12 @@ class MessageService(
           log.warn(it)
           message.channel.createMessage("${message.author?.mention} $it")
         }
+      } catch (e: DateTimeParseException) {
+        log.warn(e.message, e.cause)
+        message.channel.createMessage(
+          """${message.author?.mention} You entered an invalid date!
+          |Your birthday was not saved!""".trimMargin()
+        )
       }
     }
   }
