@@ -14,7 +14,6 @@ java.sourceCompatibility = JavaVersion.VERSION_17
 
 repositories {
   mavenCentral()
-  maven("https://oss.sonatype.org/content/repositories/snapshots")
 }
 
 dependencies {
@@ -22,7 +21,7 @@ dependencies {
   implementation("org.springframework.boot:spring-boot-starter-data-jpa")
   implementation("org.jetbrains.kotlin:kotlin-reflect")
   implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-  implementation("dev.kord:kord-core:0.8.0-M9")
+  implementation("dev.kord:kord-core:0.8.0-M10")
 
   developmentOnly("org.springframework.boot:spring-boot-devtools")
 
