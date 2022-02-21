@@ -1,6 +1,5 @@
 package io.github.srtigers98.birthdaydiscordbot.application.service
 
-import dev.kord.core.entity.Message
 import io.github.srtigers98.birthdaydiscordbot.application.dao.BirthdayRepository
 import io.github.srtigers98.birthdaydiscordbot.application.dto.Birthday
 import io.github.srtigers98.birthdaydiscordbot.application.exception.BirthdayInFutureException
@@ -15,23 +14,16 @@ class BirthdayService(
 
   private val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
-  fun save(msg: Message, birthdayInput: String) {
-    val userId = msg.author?.id.toString()
-    val mention = msg.author?.mention as String
-    val channelId = msg.channelId.toString()
-
+  fun save(userId: String, userMention: String, channelId: String, birthdayInput: String) {
     val birthdayDate = LocalDate.parse(birthdayInput, formatter)
     if (birthdayDate.isAfter(LocalDate.now())) {
-      throw BirthdayInFutureException(
-        """The entered birthday *$birthdayDate* is in the future!
-        |Your birthday was **not** saved, please try again!""".trimMargin()
-      )
+      throw BirthdayInFutureException()
     }
 
     val birthday = Birthday(
       userId,
       channelId,
-      mention,
+      userMention,
       birthdayDate.year,
       birthdayDate.monthValue,
       birthdayDate.dayOfMonth

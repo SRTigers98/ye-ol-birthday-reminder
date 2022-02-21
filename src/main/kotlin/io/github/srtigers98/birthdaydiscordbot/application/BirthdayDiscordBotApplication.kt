@@ -36,7 +36,7 @@ class BirthdayDiscordBotApplication(
     log.info("Successfully registered ${discordCommands.count()} command(s)!")
 
     client.on<ChatInputCommandInteractionCreateEvent> {
-      val command = commands.find { it.checkCommand(interaction) }
+      val command = commands.find { interaction.command.rootName == it.name }
       if (command != null) {
         discordCommands[command.name]?.service?.createInteractionResponse(
           interaction.id, interaction.token, command.handleCommand(interaction)
