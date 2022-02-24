@@ -48,4 +48,9 @@ class BirthdayService(
       date.dayOfMonth
     )
   }
+
+  fun delete(userId: String, channelId: String) {
+    val birthdayId = BirthdayId(userId, channelId)
+    birthdayRepository.deleteById(birthdayId)
+  }
 }
