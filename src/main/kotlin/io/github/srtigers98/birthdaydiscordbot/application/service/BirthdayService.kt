@@ -14,6 +14,7 @@ class BirthdayService(
 
   private val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
+  @Throws(BirthdayInFutureException::class)
   fun save(userId: String, userMention: String, channelId: String, birthdayInput: String) {
     val birthdayDate = LocalDate.parse(birthdayInput, formatter)
     if (birthdayDate.isAfter(LocalDate.now())) {
