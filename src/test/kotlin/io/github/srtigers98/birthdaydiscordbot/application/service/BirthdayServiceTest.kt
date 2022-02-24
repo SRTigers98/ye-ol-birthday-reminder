@@ -1,7 +1,9 @@
 package io.github.srtigers98.birthdaydiscordbot.application.service
 
 import io.github.srtigers98.birthdaydiscordbot.application.dao.BirthdayRepository
+import io.github.srtigers98.birthdaydiscordbot.application.dao.GuildConfigRepository
 import io.github.srtigers98.birthdaydiscordbot.application.dto.Birthday
+import io.github.srtigers98.birthdaydiscordbot.application.dto.GuildConfig
 import io.github.srtigers98.birthdaydiscordbot.application.exception.BirthdayInFutureException
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
@@ -16,6 +18,7 @@ import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
 import java.time.LocalDate
 import java.time.format.DateTimeParseException
+import java.util.*
 
 @ExtendWith(MockitoExtension::class)
 internal class BirthdayServiceTest {
@@ -26,14 +29,26 @@ internal class BirthdayServiceTest {
   @Mock
   private lateinit var birthdayRepository: BirthdayRepository
 
+  @Mock
+  private lateinit var guildConfigRepository: GuildConfigRepository
+
   @Test
   fun saveTest() {
-    val birthday = Birthday("42", "1", "@42", 2000, 12, 12)
+    val guild = GuildConfig("1", "99")
+    val birthday = Birthday("42", guild, "@42", 2000, 12, 12)
 
+    whenever(guildConfigRepository.findById(guild.guildId))
+      .thenReturn(Optional.of(guild))
     whenever(birthdayRepository.save(birthday))
       .thenReturn(birthday)
 
-    tested.save(birthday.userId, birthday.mention, birthday.channelId, "2000-12-12")
+    tested.save(
+      birthday.userId,
+      birthday.mention,
+      birthday.guild.guildId,
+      birthday.guild.birthdayChannelId,
+      "2000-12-12"
+    )
 
     verify(birthdayRepository, times(1)).save(birthday)
   }
@@ -41,21 +56,21 @@ internal class BirthdayServiceTest {
   @Test
   fun saveInvalidDateFormatTest() {
     assertThrows<DateTimeParseException> {
-      tested.save("1", "1", "1", "1-1-2000")
+      tested.save("1", "1", "1", "99", "1-1-2000")
     }
   }
 
   @Test
   fun saveDateInFutureTest() {
     assertThrows<BirthdayInFutureException> {
-      tested.save("1", "1", "1", "2999-12-31")
+      tested.save("1", "1", "1", "99", "2999-12-31")
     }
   }
 
   @Test
   fun checkForBirthdayOnTest() {
     val foundBirthdays = listOf(
-      Birthday("42", "1", "@42", 2000, 1, 1)
+      Birthday("42", GuildConfig("1", "99"), "@42", 2000, 1, 1)
     )
 
     whenever(birthdayRepository.findByBirthdayMonthIsAndBirthdayDayIs(1, 1))

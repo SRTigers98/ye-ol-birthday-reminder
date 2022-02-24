@@ -2,6 +2,8 @@ package io.github.srtigers98.birthdaydiscordbot.application.command
 
 import dev.kord.common.entity.InteractionResponseType
 import dev.kord.common.entity.Snowflake
+import dev.kord.common.entity.optional.OptionalSnowflake
+import dev.kord.core.cache.data.InteractionData
 import dev.kord.core.entity.User
 import dev.kord.core.entity.interaction.ChatInputCommandInteraction
 import dev.kord.core.entity.interaction.InteractionCommand
@@ -37,6 +39,7 @@ internal class BirthdaySaveCommandTest {
 
     val userId = "42"
     val userMention = "@42"
+    val guildId = "1"
     val channelId = "100"
     val userBirthday = "2000-01-01"
 
@@ -44,6 +47,7 @@ internal class BirthdaySaveCommandTest {
     val birthdayOptionValue: OptionValue<String> = mock()
     val commandOptions = mapOf("birthday" to birthdayOptionValue)
     val interactionUser: User = mock()
+    val interactionData: InteractionData = mock()
 
     whenever(interaction.command)
       .thenReturn(interactionCommand)
@@ -57,10 +61,14 @@ internal class BirthdaySaveCommandTest {
       .thenReturn(Snowflake(userId))
     whenever(interactionUser.mention)
       .thenReturn(userMention)
+    whenever(interaction.data)
+      .thenReturn(interactionData)
+    whenever(interactionData.guildId)
+      .thenReturn(OptionalSnowflake.Value(Snowflake(guildId)))
     whenever(interaction.channelId)
       .thenReturn(Snowflake(channelId))
 
-    whenever(birthdayService.save(userId, userMention, channelId, userBirthday))
+    whenever(birthdayService.save(userId, userMention, guildId, channelId, userBirthday))
       .thenAnswer { }
 
     val result = tested.handleCommand(interaction)
@@ -71,7 +79,7 @@ internal class BirthdaySaveCommandTest {
     assertThat(result.data.value?.content?.value, `is`(notNullValue()))
 
     verify(birthdayService, times(1))
-      .save(userId, userMention, channelId, userBirthday)
+      .save(userId, userMention, guildId, channelId, userBirthday)
   }
 
   @Test
@@ -80,6 +88,7 @@ internal class BirthdaySaveCommandTest {
 
     val userId = "42"
     val userMention = "@42"
+    val guildId = "1"
     val channelId = "100"
     val userBirthday = "2000-1-1"
 
@@ -87,6 +96,7 @@ internal class BirthdaySaveCommandTest {
     val birthdayOptionValue: OptionValue<String> = mock()
     val commandOptions = mapOf("birthday" to birthdayOptionValue)
     val interactionUser: User = mock()
+    val interactionData: InteractionData = mock()
 
     whenever(interaction.command)
       .thenReturn(interactionCommand)
@@ -100,6 +110,10 @@ internal class BirthdaySaveCommandTest {
       .thenReturn(Snowflake(userId))
     whenever(interactionUser.mention)
       .thenReturn(userMention)
+    whenever(interaction.data)
+      .thenReturn(interactionData)
+    whenever(interactionData.guildId)
+      .thenReturn(OptionalSnowflake.Value(Snowflake(guildId)))
     whenever(interaction.channelId)
       .thenReturn(Snowflake(channelId))
 
@@ -111,7 +125,7 @@ internal class BirthdaySaveCommandTest {
     assertThat(result.data.value?.content?.value, `is`(notNullValue()))
 
     verify(birthdayService, times(0))
-      .save(userId, userMention, channelId, userBirthday)
+      .save(userId, userMention, guildId, channelId, userBirthday)
   }
 
   @Test
@@ -120,6 +134,7 @@ internal class BirthdaySaveCommandTest {
 
     val userId = "42"
     val userMention = "@42"
+    val guildId = "1"
     val channelId = "100"
     val userBirthday = "2999-12-31"
 
@@ -127,6 +142,7 @@ internal class BirthdaySaveCommandTest {
     val birthdayOptionValue: OptionValue<String> = mock()
     val commandOptions = mapOf("birthday" to birthdayOptionValue)
     val interactionUser: User = mock()
+    val interactionData: InteractionData = mock()
 
     whenever(interaction.command)
       .thenReturn(interactionCommand)
@@ -140,10 +156,14 @@ internal class BirthdaySaveCommandTest {
       .thenReturn(Snowflake(userId))
     whenever(interactionUser.mention)
       .thenReturn(userMention)
+    whenever(interaction.data)
+      .thenReturn(interactionData)
+    whenever(interactionData.guildId)
+      .thenReturn(OptionalSnowflake.Value(Snowflake(guildId)))
     whenever(interaction.channelId)
       .thenReturn(Snowflake(channelId))
 
-    whenever(birthdayService.save(userId, userMention, channelId, userBirthday))
+    whenever(birthdayService.save(userId, userMention, guildId, channelId, userBirthday))
       .thenThrow(BirthdayInFutureException())
 
     val result = tested.handleCommand(interaction)
@@ -160,6 +180,7 @@ internal class BirthdaySaveCommandTest {
 
     val userId = "42"
     val userMention = "@42"
+    val guildId = "1"
     val channelId = "100"
     val userBirthday = "2000-13-01"
 
@@ -167,6 +188,7 @@ internal class BirthdaySaveCommandTest {
     val birthdayOptionValue: OptionValue<String> = mock()
     val commandOptions = mapOf("birthday" to birthdayOptionValue)
     val interactionUser: User = mock()
+    val interactionData: InteractionData = mock()
 
     whenever(interaction.command)
       .thenReturn(interactionCommand)
@@ -180,10 +202,14 @@ internal class BirthdaySaveCommandTest {
       .thenReturn(Snowflake(userId))
     whenever(interactionUser.mention)
       .thenReturn(userMention)
+    whenever(interaction.data)
+      .thenReturn(interactionData)
+    whenever(interactionData.guildId)
+      .thenReturn(OptionalSnowflake.Value(Snowflake(guildId)))
     whenever(interaction.channelId)
       .thenReturn(Snowflake(channelId))
 
-    whenever(birthdayService.save(userId, userMention, channelId, userBirthday))
+    whenever(birthdayService.save(userId, userMention, guildId, channelId, userBirthday))
       .thenThrow(DateTimeParseException("", "", -1))
 
     val result = tested.handleCommand(interaction)

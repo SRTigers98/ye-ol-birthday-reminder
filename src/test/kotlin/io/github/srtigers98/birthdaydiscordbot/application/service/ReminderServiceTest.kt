@@ -5,6 +5,7 @@ import dev.kord.common.entity.Snowflake
 import dev.kord.rest.service.ChannelService
 import dev.kord.rest.service.RestClient
 import io.github.srtigers98.birthdaydiscordbot.application.dto.Birthday
+import io.github.srtigers98.birthdaydiscordbot.application.dto.GuildConfig
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -30,7 +31,7 @@ internal class ReminderServiceTest {
   fun checkForBirthdayTest() = runBlocking {
     val today = LocalDate.now()
     val foundBirthdays = listOf(
-      Birthday("42", "99", "@42", today.year - 18, today.monthValue, today.dayOfMonth)
+      Birthday("42", GuildConfig("1", "99"), "@42", today.year - 18, today.monthValue, today.dayOfMonth)
     )
     val channelService: ChannelService = mock()
     val discordMessage: DiscordMessage = mock()
