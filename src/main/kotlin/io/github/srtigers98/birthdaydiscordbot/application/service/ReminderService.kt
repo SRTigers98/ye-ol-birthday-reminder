@@ -20,7 +20,7 @@ class ReminderService(
 
     birthdays.forEach {
       runBlocking {
-        val channelId = Snowflake(it.channelId)
+        val channelId = Snowflake(it.guild.birthdayChannelId)
         val msg = restClient.channel.createMessage(channelId) {
           content = """
             |Happy Birthday ${it.mention}!

@@ -16,7 +16,7 @@ class BirthdayDeleteCommand(
   override fun handleCommand(interaction: ChatInputCommandInteraction): InteractionResponseCreateRequest {
     val userId = interaction.user.id.toString()
     val userMention = interaction.user.mention
-    val channelId = interaction.channelId.toString()
+    val channelId = interaction.data.guildId.value.toString()
 
     birthdayService.delete(userId, channelId)
     val response = "Birthday for $userMention was deleted!"

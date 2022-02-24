@@ -4,5 +4,5 @@ import java.io.Serializable
 
 data class BirthdayId(
   val userId: String = "",
-  val channelId: String = ""
+  val guild: String = ""
 ) : Serializable

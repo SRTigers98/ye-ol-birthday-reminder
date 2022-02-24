@@ -18,7 +18,7 @@ class BirthdayShowCommand(
   override fun handleCommand(interaction: ChatInputCommandInteraction): InteractionResponseCreateRequest {
     val userId = interaction.user.id.toString()
     val userMention = interaction.user.mention
-    val channelId = interaction.channelId.toString()
+    val channelId = interaction.data.guildId.value.toString()
 
     val response = readBirthday(userId, userMention, channelId)
 

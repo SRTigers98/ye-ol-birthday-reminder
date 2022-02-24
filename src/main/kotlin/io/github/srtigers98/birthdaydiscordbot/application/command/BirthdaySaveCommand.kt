@@ -29,6 +29,7 @@ class BirthdaySaveCommand(
     val response = saveBirthday(
       interaction.user.id.toString(),
       interaction.user.mention,
+      interaction.data.guildId.value.toString(),
       interaction.channelId.toString(),
       birthday.trim()
     )
@@ -39,7 +40,13 @@ class BirthdaySaveCommand(
     )
   }
 
-  private fun saveBirthday(userId: String, userMention: String, channelId: String, birthday: String): String {
+  private fun saveBirthday(
+    userId: String,
+    userMention: String,
+    guildId: String,
+    channelId: String,
+    birthday: String
+  ): String {
     if (!Regex("\\d{4}-\\d{2}-\\d{2}").matches(birthday)) {
       return """Invalid input for parameter **birthday** (*$birthday*)!
         |Your birthday was not saved, please try again!
@@ -47,7 +54,7 @@ class BirthdaySaveCommand(
     }
 
     return try {
-      birthdayService.save(userId, userMention, channelId, birthday)
+      birthdayService.save(userId, userMention, guildId, channelId, birthday)
       "Hey $userMention, your birthday *$birthday* was saved successfully!"
     } catch (e: BirthdayInFutureException) {
       """The entered birthday *$birthday* is in the future!
