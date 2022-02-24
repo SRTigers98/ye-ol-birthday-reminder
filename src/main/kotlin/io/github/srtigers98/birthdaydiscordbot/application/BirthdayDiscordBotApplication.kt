@@ -22,10 +22,7 @@ class BirthdayDiscordBotApplication(
   private val log: Logger = LoggerFactory.getLogger(BirthdayDiscordBotApplication::class.java)
 
   override fun run(vararg args: String?) = runBlocking {
-    // Clear all previous commands
-    // client.rest.interaction.getGlobalApplicationCommands(client.selfId).forEach {
-    //   client.rest.interaction.deleteGlobalApplicationCommand(it.applicationId, it.id)
-    // }
+    clearUnusedCommands()
 
     val discordCommands = commands.associate {
       it.name to kord.createGlobalChatInputCommand(it.name, it.description, it.builder())
@@ -43,6 +40,14 @@ class BirthdayDiscordBotApplication(
 
     log.info("Discord Bot started!")
     kord.login()
+  }
+
+  private suspend fun clearUnusedCommands() {
+    kord.rest.interaction.getGlobalApplicationCommands(kord.selfId).forEach {
+      if (commands.find { c -> c.name == it.name } == null) {
+        kord.rest.interaction.deleteGlobalApplicationCommand(it.applicationId, it.id)
+      }
+    }
   }
 }
 
