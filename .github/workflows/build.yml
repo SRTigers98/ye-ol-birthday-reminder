@@ -17,12 +17,18 @@ jobs:
       - name: Setup gradlew
         run: chmod +x ./gradlew
 
+      - name: Compile
+        run: ./gradlew classes
+
+      - name: Test
+        run: ./gradlew test
+
       - name: Build
-        run: ./gradlew build
-      
+        run: ./gradlew build -x test
+
       - name: Boot Jar
         run: ./gradlew clean bootJar
-      
+
       - name: Upload Boot Jar
         uses: actions/upload-artifact@v2.3.1
         with:
