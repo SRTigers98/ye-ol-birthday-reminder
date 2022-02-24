@@ -37,7 +37,7 @@ jobs:
         run: ./gradlew classes
 
       - name: Test
-        run: ./gradlew test
+        run: ./gradlew test --info --stacktrace
 
       - name: Build
         run: ./gradlew build -x test
