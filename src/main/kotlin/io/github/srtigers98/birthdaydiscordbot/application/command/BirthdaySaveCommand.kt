@@ -12,21 +12,23 @@ import io.github.srtigers98.birthdaydiscordbot.application.service.BirthdayServi
 import org.springframework.stereotype.Component
 import java.time.format.DateTimeParseException
 
+private const val BIRTHDAY_KEY = "birthday"
+
 @Component
 class BirthdaySaveCommand(
   private val birthdayService: BirthdayService
-) : BirthdayCommand("bdayis", "Saves your birthday to the server.") {
+) : BirthdayCommand("save", "Saves your birthday to the server.") {
 
   override fun builder(): ChatInputCreateBuilder.() -> Unit = {
     options = mutableListOf(
-      StringChoiceBuilder("birthday", "Your birthday.").apply {
+      StringChoiceBuilder(BIRTHDAY_KEY, "Your birthday.").apply {
         required = true
       }
     )
   }
 
   override fun handleCommand(interaction: ChatInputCommandInteraction): InteractionResponseCreateRequest {
-    val birthday = interaction.command.options.getValue("birthday").value as String
+    val birthday = interaction.command.options.getValue(BIRTHDAY_KEY).value as String
     val response = saveBirthday(
       interaction.user.id.toString(),
       interaction.user.mention,
