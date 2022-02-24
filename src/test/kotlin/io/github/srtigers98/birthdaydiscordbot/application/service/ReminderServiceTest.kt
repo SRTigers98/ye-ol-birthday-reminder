@@ -7,17 +7,24 @@ import dev.kord.rest.service.RestClient
 import io.github.srtigers98.birthdaydiscordbot.application.dto.Birthday
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
+import org.mockito.InjectMocks
+import org.mockito.Mock
+import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.*
 import java.time.LocalDate
 
+@ExtendWith(MockitoExtension::class)
 internal class ReminderServiceTest {
 
-  private val restClient: RestClient = mock()
-  private val birthdayService: BirthdayService = mock()
-  private val tested: ReminderService = ReminderService(
-    restClient,
-    birthdayService
-  )
+  @InjectMocks
+  private lateinit var tested: ReminderService
+
+  @Mock
+  private lateinit var restClient: RestClient
+
+  @Mock
+  private lateinit var birthdayService: BirthdayService
 
   @Test
   fun checkForBirthdayTest() = runBlocking {
