@@ -6,10 +6,9 @@ import dev.kord.rest.json.request.InteractionResponseCreateRequest
 
 abstract class BirthdayCommand(
   val name: String,
-  val description: String
+  val description: String,
+  val builder: ChatInputCreateBuilder.() -> Unit
 ) {
-
-  abstract fun builder(): ChatInputCreateBuilder.() -> Unit
 
   abstract fun handleCommand(interaction: ChatInputCommandInteraction): InteractionResponseCreateRequest
 }

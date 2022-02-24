@@ -3,7 +3,6 @@ package io.github.srtigers98.birthdaydiscordbot.application.command
 import dev.kord.common.entity.InteractionResponseType
 import dev.kord.common.entity.optional.Optional
 import dev.kord.core.entity.interaction.ChatInputCommandInteraction
-import dev.kord.rest.builder.interaction.ChatInputCreateBuilder
 import dev.kord.rest.builder.interaction.StringChoiceBuilder
 import dev.kord.rest.json.request.InteractionApplicationCommandCallbackData
 import dev.kord.rest.json.request.InteractionResponseCreateRequest
@@ -17,15 +16,13 @@ private const val BIRTHDAY_KEY = "birthday"
 @Component
 class BirthdaySaveCommand(
   private val birthdayService: BirthdayService
-) : BirthdayCommand("save", "Saves your birthday to the server.") {
-
-  override fun builder(): ChatInputCreateBuilder.() -> Unit = {
-    options = mutableListOf(
-      StringChoiceBuilder(BIRTHDAY_KEY, "Your birthday.").apply {
-        required = true
-      }
-    )
-  }
+) : BirthdayCommand("save", "Saves your birthday to the server.", {
+  options = mutableListOf(
+    StringChoiceBuilder(BIRTHDAY_KEY, "Your birthday.").apply {
+      required = true
+    }
+  )
+}) {
 
   override fun handleCommand(interaction: ChatInputCommandInteraction): InteractionResponseCreateRequest {
     val birthday = interaction.command.options.getValue(BIRTHDAY_KEY).value as String

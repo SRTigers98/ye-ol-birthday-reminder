@@ -25,7 +25,7 @@ class BirthdayDiscordBotApplication(
     clearUnusedCommands()
 
     val discordCommands = commands.associate {
-      it.name to kord.createGlobalChatInputCommand(it.name, it.description, it.builder())
+      it.name to kord.createGlobalChatInputCommand(it.name, it.description, it.builder)
     }.toMap()
     log.info("Successfully registered ${discordCommands.count()} command(s)!")
 
