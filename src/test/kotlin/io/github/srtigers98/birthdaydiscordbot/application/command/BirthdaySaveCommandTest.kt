@@ -69,7 +69,7 @@ internal class BirthdaySaveCommandTest {
       .thenReturn(Snowflake(channelId))
 
     whenever(birthdayService.save(userId, userMention, guildId, channelId, userBirthday))
-      .thenAnswer { }
+      .thenReturn(mock())
 
     val result = tested.handleCommand(interaction)
 

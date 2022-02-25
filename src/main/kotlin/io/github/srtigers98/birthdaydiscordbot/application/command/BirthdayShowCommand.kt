@@ -18,9 +18,9 @@ class BirthdayShowCommand(
   override fun handleCommand(interaction: ChatInputCommandInteraction): InteractionResponseCreateRequest {
     val userId = interaction.user.id.toString()
     val userMention = interaction.user.mention
-    val channelId = interaction.data.guildId.value.toString()
+    val guildId = interaction.data.guildId.value.toString()
 
-    val response = readBirthday(userId, userMention, channelId)
+    val response = readBirthday(userId, userMention, guildId)
 
     return InteractionResponseCreateRequest(
       InteractionResponseType.ChannelMessageWithSource,
@@ -28,13 +28,12 @@ class BirthdayShowCommand(
     )
   }
 
-  private fun readBirthday(userId: String, userMention: String, channelId: String): String {
-    return try {
-      val userBirthday = birthdayService.getUserBirthday(userId, channelId)
+  private fun readBirthday(userId: String, userMention: String, guildId: String): String =
+    try {
+      val userBirthday = birthdayService.getUserBirthday(userId, guildId)
       val birthdayDate = LocalDate.of(userBirthday.birthdayYear, userBirthday.birthdayMonth, userBirthday.birthdayDay)
       "Saved birthday for $userMention is *$birthdayDate*!"
     } catch (e: BirthdayNotFoundException) {
       "No birthday saved for $userMention!"
     }
-  }
 }
