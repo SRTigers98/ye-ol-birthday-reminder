@@ -55,6 +55,13 @@ internal class ReminderServiceTest {
     tested.checkForBirthday()
 
     verify(channelService, times(1))
+      .createMessage(Snowflake("99"), builder = {
+        content = """
+            |Happy Birthday ${foundBirthdays[0].mention}!
+            |Congratulations to your ${today.year - foundBirthdays[0].birthdayYear}. birthday!
+          """.trimMargin()
+      })
+    verify(channelService, times(1))
       .createReaction(eq(Snowflake("99")), eq(Snowflake("1")), any())
   }
 }
