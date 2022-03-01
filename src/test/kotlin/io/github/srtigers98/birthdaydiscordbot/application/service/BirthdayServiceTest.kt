@@ -65,7 +65,7 @@ internal class BirthdayServiceTest {
 
   @Test
   fun saveDateInFutureTest() {
-    assertThrows<BirthdayExceptions.BirthdayInFutureExceptions> {
+    assertThrows<BirthdayExceptions.BirthdayInFutureException> {
       tested.save("1", "1", "1", "99", "2999-12-31")
     }
   }
@@ -96,7 +96,7 @@ internal class BirthdayServiceTest {
     whenever(birthdayRepository.findById(birthdayId))
       .thenReturn(Optional.empty())
 
-    assertThrows<BirthdayExceptions.BirthdayNotFoundExceptions> {
+    assertThrows<BirthdayExceptions.BirthdayNotFoundException> {
       tested.getUserBirthday(userId, guildId)
     }
   }

@@ -56,7 +56,7 @@ class BirthdaySaveCommand(
     return try {
       birthdayService.save(userId, userMention, guildId, channelId, birthday)
       "Hey $userMention, your birthday *$birthday* was saved successfully!"
-    } catch (e: BirthdayExceptions.BirthdayInFutureExceptions) {
+    } catch (e: BirthdayExceptions.BirthdayInFutureException) {
       """The entered birthday *$birthday* is in the future!
         |Your birthday was **not** saved, please try again!""".trimMargin()
     } catch (e: DateTimeParseException) {

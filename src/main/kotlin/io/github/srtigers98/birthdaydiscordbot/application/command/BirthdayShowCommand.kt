@@ -33,7 +33,7 @@ class BirthdayShowCommand(
       val userBirthday = birthdayService.getUserBirthday(userId, guildId)
       val birthdayDate = LocalDate.of(userBirthday.birthdayYear, userBirthday.birthdayMonth, userBirthday.birthdayDay)
       "Saved birthday for $userMention is *$birthdayDate*!"
-    } catch (e: BirthdayExceptions.BirthdayNotFoundExceptions) {
+    } catch (e: BirthdayExceptions.BirthdayNotFoundException) {
       "No birthday saved for $userMention!"
     }
 }

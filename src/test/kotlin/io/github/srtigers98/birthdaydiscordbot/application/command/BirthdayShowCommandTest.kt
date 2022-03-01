@@ -87,7 +87,7 @@ internal class BirthdayShowCommandTest {
       .thenReturn(OptionalSnowflake.Value(Snowflake(guildId)))
 
     whenever(birthdayService.getUserBirthday(userId, guildId))
-      .thenThrow(BirthdayExceptions.BirthdayNotFoundExceptions)
+      .thenThrow(BirthdayExceptions.BirthdayNotFoundException)
 
     val result = tested.handleCommand(interaction)
 

@@ -164,7 +164,7 @@ internal class BirthdaySaveCommandTest {
       .thenReturn(Snowflake(channelId))
 
     whenever(birthdayService.save(userId, userMention, guildId, channelId, userBirthday))
-      .thenThrow(BirthdayExceptions.BirthdayInFutureExceptions)
+      .thenThrow(BirthdayExceptions.BirthdayInFutureException)
 
     val result = tested.handleCommand(interaction)
 

@@ -16,7 +16,7 @@ class BirthdayService(
 
   private val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
-  @Throws(BirthdayExceptions.BirthdayInFutureExceptions::class)
+  @Throws(BirthdayExceptions.BirthdayInFutureException::class)
   fun save(
     userId: String,
     userMention: String,
@@ -26,7 +26,7 @@ class BirthdayService(
   ): Birthday {
     val birthdayDate = LocalDate.parse(birthdayInput, formatter)
     if (birthdayDate.isAfter(LocalDate.now())) {
-      throw BirthdayExceptions.BirthdayInFutureExceptions
+      throw BirthdayExceptions.BirthdayInFutureException
     }
 
     val guildConfig = guildConfigService.getGuildConfig(guildId, currentChannelId)
@@ -43,11 +43,11 @@ class BirthdayService(
     return birthdayRepository.save(birthday)
   }
 
-  @Throws(BirthdayExceptions.BirthdayNotFoundExceptions::class)
+  @Throws(BirthdayExceptions.BirthdayNotFoundException::class)
   fun getUserBirthday(userId: String, guildId: String): Birthday {
     val birthdayId = BirthdayId(userId, guildId)
     return birthdayRepository.findById(birthdayId)
-      .orElseThrow { BirthdayExceptions.BirthdayNotFoundExceptions }
+      .orElseThrow { BirthdayExceptions.BirthdayNotFoundException }
   }
 
   fun checkForBirthdayOn(date: LocalDate): List<Birthday> =
