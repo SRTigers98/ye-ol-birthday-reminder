@@ -7,6 +7,7 @@ plugins {
   kotlin("plugin.spring") version "1.6.10"
   kotlin("plugin.jpa") version "1.6.10"
   id("org.sonarqube") version "3.3"
+  id("jacoco")
 }
 
 group = "io.github.srtigers98.birthdaydiscordbot"
@@ -50,4 +51,11 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> {
   useJUnitPlatform()
+  finalizedBy("jacocoTestReport")
+}
+
+tasks.jacocoTestReport {
+  reports {
+    xml.required.set(true)
+  }
 }
