@@ -6,6 +6,7 @@ plugins {
   kotlin("jvm") version "1.6.10"
   kotlin("plugin.spring") version "1.6.10"
   kotlin("plugin.jpa") version "1.6.10"
+  id("org.sonarqube") version "3.3"
 }
 
 group = "io.github.srtigers98.birthdaydiscordbot"
@@ -30,6 +31,14 @@ dependencies {
 
   testImplementation("org.springframework.boot:spring-boot-starter-test")
   testImplementation("org.mockito.kotlin:mockito-kotlin:4.0.0")
+}
+
+sonarqube {
+  properties {
+    property("sonar.projectKey", "SRTigers98_birthday-discord-bot")
+    property("sonar.organization", "srtigers98")
+    property("sonar.host.url", "https://sonarcloud.io")
+  }
 }
 
 tasks.withType<KotlinCompile> {
