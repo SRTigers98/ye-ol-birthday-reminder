@@ -8,7 +8,7 @@ import dev.kord.core.entity.User
 import dev.kord.core.entity.interaction.ChatInputCommandInteraction
 import dev.kord.core.entity.interaction.InteractionCommand
 import dev.kord.core.entity.interaction.OptionValue
-import io.github.srtigers98.birthdaydiscordbot.application.exception.BirthdayInFutureException
+import io.github.srtigers98.birthdaydiscordbot.application.exception.BirthdayExceptions
 import io.github.srtigers98.birthdaydiscordbot.application.service.BirthdayService
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.CoreMatchers.notNullValue
@@ -164,7 +164,7 @@ internal class BirthdaySaveCommandTest {
       .thenReturn(Snowflake(channelId))
 
     whenever(birthdayService.save(userId, userMention, guildId, channelId, userBirthday))
-      .thenThrow(BirthdayInFutureException())
+      .thenThrow(BirthdayExceptions.BirthdayInFutureExceptions)
 
     val result = tested.handleCommand(interaction)
 

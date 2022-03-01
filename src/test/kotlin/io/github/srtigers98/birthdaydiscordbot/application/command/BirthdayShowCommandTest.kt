@@ -8,7 +8,7 @@ import dev.kord.core.entity.User
 import dev.kord.core.entity.interaction.ChatInputCommandInteraction
 import io.github.srtigers98.birthdaydiscordbot.application.dto.Birthday
 import io.github.srtigers98.birthdaydiscordbot.application.dto.GuildConfig
-import io.github.srtigers98.birthdaydiscordbot.application.exception.BirthdayNotFoundException
+import io.github.srtigers98.birthdaydiscordbot.application.exception.BirthdayExceptions
 import io.github.srtigers98.birthdaydiscordbot.application.service.BirthdayService
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.CoreMatchers.notNullValue
@@ -87,7 +87,7 @@ internal class BirthdayShowCommandTest {
       .thenReturn(OptionalSnowflake.Value(Snowflake(guildId)))
 
     whenever(birthdayService.getUserBirthday(userId, guildId))
-      .thenThrow(BirthdayNotFoundException())
+      .thenThrow(BirthdayExceptions.BirthdayNotFoundExceptions)
 
     val result = tested.handleCommand(interaction)
 

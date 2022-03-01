@@ -4,8 +4,7 @@ import io.github.srtigers98.birthdaydiscordbot.application.dao.BirthdayRepositor
 import io.github.srtigers98.birthdaydiscordbot.application.dto.Birthday
 import io.github.srtigers98.birthdaydiscordbot.application.dto.BirthdayId
 import io.github.srtigers98.birthdaydiscordbot.application.dto.GuildConfig
-import io.github.srtigers98.birthdaydiscordbot.application.exception.BirthdayInFutureException
-import io.github.srtigers98.birthdaydiscordbot.application.exception.BirthdayNotFoundException
+import io.github.srtigers98.birthdaydiscordbot.application.exception.BirthdayExceptions
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.jupiter.api.Test
@@ -66,7 +65,7 @@ internal class BirthdayServiceTest {
 
   @Test
   fun saveDateInFutureTest() {
-    assertThrows<BirthdayInFutureException> {
+    assertThrows<BirthdayExceptions.BirthdayInFutureExceptions> {
       tested.save("1", "1", "1", "99", "2999-12-31")
     }
   }
@@ -97,7 +96,7 @@ internal class BirthdayServiceTest {
     whenever(birthdayRepository.findById(birthdayId))
       .thenReturn(Optional.empty())
 
-    assertThrows<BirthdayNotFoundException> {
+    assertThrows<BirthdayExceptions.BirthdayNotFoundExceptions> {
       tested.getUserBirthday(userId, guildId)
     }
   }

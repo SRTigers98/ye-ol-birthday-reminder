@@ -3,8 +3,7 @@ package io.github.srtigers98.birthdaydiscordbot.application.service
 import io.github.srtigers98.birthdaydiscordbot.application.dao.BirthdayRepository
 import io.github.srtigers98.birthdaydiscordbot.application.dto.Birthday
 import io.github.srtigers98.birthdaydiscordbot.application.dto.BirthdayId
-import io.github.srtigers98.birthdaydiscordbot.application.exception.BirthdayInFutureException
-import io.github.srtigers98.birthdaydiscordbot.application.exception.BirthdayNotFoundException
+import io.github.srtigers98.birthdaydiscordbot.application.exception.BirthdayExceptions
 import org.springframework.stereotype.Service
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -17,7 +16,7 @@ class BirthdayService(
 
   private val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
-  @Throws(BirthdayInFutureException::class)
+  @Throws(BirthdayExceptions.BirthdayInFutureExceptions::class)
   fun save(
     userId: String,
     userMention: String,
@@ -27,7 +26,7 @@ class BirthdayService(
   ): Birthday {
     val birthdayDate = LocalDate.parse(birthdayInput, formatter)
     if (birthdayDate.isAfter(LocalDate.now())) {
-      throw BirthdayInFutureException()
+      throw BirthdayExceptions.BirthdayInFutureExceptions
     }
 
     val guildConfig = guildConfigService.getGuildConfig(guildId, currentChannelId)
@@ -44,11 +43,11 @@ class BirthdayService(
     return birthdayRepository.save(birthday)
   }
 
-  @Throws(BirthdayNotFoundException::class)
+  @Throws(BirthdayExceptions.BirthdayNotFoundExceptions::class)
   fun getUserBirthday(userId: String, guildId: String): Birthday {
     val birthdayId = BirthdayId(userId, guildId)
     return birthdayRepository.findById(birthdayId)
-      .orElseThrow { BirthdayNotFoundException() }
+      .orElseThrow { BirthdayExceptions.BirthdayNotFoundExceptions }
   }
 
   fun checkForBirthdayOn(date: LocalDate): List<Birthday> =

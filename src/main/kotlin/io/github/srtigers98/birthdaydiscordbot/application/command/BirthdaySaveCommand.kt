@@ -6,7 +6,7 @@ import dev.kord.core.entity.interaction.ChatInputCommandInteraction
 import dev.kord.rest.builder.interaction.StringChoiceBuilder
 import dev.kord.rest.json.request.InteractionApplicationCommandCallbackData
 import dev.kord.rest.json.request.InteractionResponseCreateRequest
-import io.github.srtigers98.birthdaydiscordbot.application.exception.BirthdayInFutureException
+import io.github.srtigers98.birthdaydiscordbot.application.exception.BirthdayExceptions
 import io.github.srtigers98.birthdaydiscordbot.application.service.BirthdayService
 import org.springframework.stereotype.Component
 import java.time.format.DateTimeParseException
@@ -56,7 +56,7 @@ class BirthdaySaveCommand(
     return try {
       birthdayService.save(userId, userMention, guildId, channelId, birthday)
       "Hey $userMention, your birthday *$birthday* was saved successfully!"
-    } catch (e: BirthdayInFutureException) {
+    } catch (e: BirthdayExceptions.BirthdayInFutureExceptions) {
       """The entered birthday *$birthday* is in the future!
         |Your birthday was **not** saved, please try again!""".trimMargin()
     } catch (e: DateTimeParseException) {
