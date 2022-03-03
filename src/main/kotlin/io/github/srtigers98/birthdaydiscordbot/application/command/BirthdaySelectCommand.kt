@@ -11,6 +11,11 @@ import io.github.srtigers98.birthdaydiscordbot.application.service.GuildConfigSe
 import kotlinx.coroutines.runBlocking
 import org.springframework.stereotype.Component
 
+/**
+ * Command to select the current channel as the output channel for the congratulation messages for this guild.
+ *
+ * @author Benjamin Eder
+ */
 @Component
 class BirthdaySelectCommand(
   private val guildConfigService: GuildConfigService

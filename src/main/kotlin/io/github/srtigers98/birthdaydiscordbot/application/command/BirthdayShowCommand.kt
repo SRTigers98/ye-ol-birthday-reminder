@@ -10,6 +10,11 @@ import io.github.srtigers98.birthdaydiscordbot.application.service.BirthdayServi
 import org.springframework.stereotype.Component
 import java.time.LocalDate
 
+/**
+ * Command to show the stored birthday of the user on its current guild.
+ *
+ * @author Benjamin Eder
+ */
 @Component
 class BirthdayShowCommand(
   private val birthdayService: BirthdayService
