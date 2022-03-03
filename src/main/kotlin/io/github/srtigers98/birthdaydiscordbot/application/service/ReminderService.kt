@@ -7,12 +7,21 @@ import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
 import java.time.LocalDate
 
+/**
+ * Service to read the saved birthdays every day and congratulate the guild member (reminds the other guild members).
+ *
+ * @author Benjamin Eder
+ */
 @Service
 class ReminderService(
   private val restClient: RestClient,
   private val birthdayService: BirthdayService
 ) {
 
+  /**
+   * Check every day at 12 pm if any saved birthday is today.
+   * If there are birthdays today, send a congratulation message to the guild member in the configured birthday channel in the guild.
+   */
   @Scheduled(cron = "0 0 12 * * *")
   fun checkForBirthday() {
     val today = LocalDate.now()
