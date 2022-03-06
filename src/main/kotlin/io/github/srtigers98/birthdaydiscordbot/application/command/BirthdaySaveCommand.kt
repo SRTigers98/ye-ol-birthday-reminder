@@ -24,7 +24,7 @@ class BirthdaySaveCommand(
   private val birthdayService: BirthdayService
 ) : BirthdayCommand("save", "Saves your birthday to the server.", {
   options = mutableListOf(
-    StringChoiceBuilder(BIRTHDAY_KEY, "Your birthday.").apply {
+    StringChoiceBuilder(BIRTHDAY_KEY, "Your birthday with pattern yyyy-MM-dd").apply {
       required = true
     }
   )
