@@ -6,10 +6,6 @@ on:
   pull_request:
     types: [ opened, synchronize, reopened ]
 
-env:
-  REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -54,6 +50,10 @@ jobs:
     permissions:
       contents: read
       packages: write
+
+    env:
+      REGISTRY: ghcr.io
+      IMAGE_NAME: ${{ github.repository }}
 
     steps:
       - name: Checkout
