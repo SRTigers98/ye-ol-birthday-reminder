@@ -15,4 +15,6 @@ WORKDIR /opt/birthday-discord-bot
 
 COPY --from=builder /opt/birthday-discord-bot/build/libs/birthday-discord-bot.jar bot.jar
 
+ENV SPRING_PROFILES_ACTIVE prod
+
 ENTRYPOINT ["java", "-jar", "bot.jar"]
