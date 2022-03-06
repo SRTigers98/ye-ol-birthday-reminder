@@ -12,6 +12,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.scheduling.annotation.EnableScheduling
 
+/**
+ * Main class for the bot application.
+ *
+ * @author Benjamin Eder
+ */
 @SpringBootApplication
 @EnableScheduling
 class BirthdayDiscordBotApplication(
@@ -21,6 +26,12 @@ class BirthdayDiscordBotApplication(
 
   private val log: Logger = LoggerFactory.getLogger(BirthdayDiscordBotApplication::class.java)
 
+  /**
+   * Starts the discord bot.
+   *
+   * It clears all unused global commands, registers the global bot commands and sets up the event listener for the configured commands.
+   * Finally, it logs into the bot and starts it.
+   */
   override fun run(vararg args: String?) = runBlocking {
     clearUnusedCommands()
 

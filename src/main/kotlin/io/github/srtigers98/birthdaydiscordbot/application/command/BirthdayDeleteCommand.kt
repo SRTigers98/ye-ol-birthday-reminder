@@ -8,6 +8,11 @@ import dev.kord.rest.json.request.InteractionResponseCreateRequest
 import io.github.srtigers98.birthdaydiscordbot.application.service.BirthdayService
 import org.springframework.stereotype.Component
 
+/**
+ * Command to delete the currently stored birthday of the user in its current guild.
+ *
+ * @author Benjamin Eder
+ */
 @Component
 class BirthdayDeleteCommand(
   private val birthdayService: BirthdayService

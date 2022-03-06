@@ -2,6 +2,11 @@ package io.github.srtigers98.birthdaydiscordbot.application.dto
 
 import javax.persistence.*
 
+/**
+ * Entity class to store the birthday of a guild member.
+ *
+ * @author Benjamin Eder
+ */
 @Entity
 @IdClass(BirthdayId::class)
 data class Birthday(

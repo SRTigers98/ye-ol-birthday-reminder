@@ -11,8 +11,14 @@ import io.github.srtigers98.birthdaydiscordbot.application.service.BirthdayServi
 import org.springframework.stereotype.Component
 import java.time.format.DateTimeParseException
 
+/** The key for the birthday parameter */
 private const val BIRTHDAY_KEY = "birthday"
 
+/**
+ * Command to save a birthday for the user in its current guild.
+ *
+ * @author Benjamin Eder
+ */
 @Component
 class BirthdaySaveCommand(
   private val birthdayService: BirthdayService

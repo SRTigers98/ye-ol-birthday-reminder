@@ -1,5 +1,10 @@
 package io.github.srtigers98.birthdaydiscordbot.application.exception
 
+/**
+ * Object which provides all birthday related exceptions.
+ *
+ * @author Benjamin Eder
+ */
 object BirthdayExceptions {
 
   object BirthdayInFutureException :

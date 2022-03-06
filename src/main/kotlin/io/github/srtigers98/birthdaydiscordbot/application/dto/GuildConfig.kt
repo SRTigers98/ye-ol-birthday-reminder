@@ -4,6 +4,11 @@ import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.Id
 
+/**
+ * Entity class for the configuration of a guild.
+ *
+ * @author Benjamin Eder
+ */
 @Entity
 data class GuildConfig(
   @Id
