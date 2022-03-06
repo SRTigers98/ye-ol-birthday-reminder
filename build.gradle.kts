@@ -59,3 +59,7 @@ tasks.jacocoTestReport {
     xml.required.set(true)
   }
 }
+
+tasks.bootJar {
+  archiveFileName.set("${archiveBaseName.get()}.${archiveExtension.get()}")
+}
