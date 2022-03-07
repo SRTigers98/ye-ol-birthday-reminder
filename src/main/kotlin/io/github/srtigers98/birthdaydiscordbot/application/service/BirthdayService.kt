@@ -4,6 +4,8 @@ import io.github.srtigers98.birthdaydiscordbot.application.dao.BirthdayRepositor
 import io.github.srtigers98.birthdaydiscordbot.application.dto.Birthday
 import io.github.srtigers98.birthdaydiscordbot.application.dto.BirthdayId
 import io.github.srtigers98.birthdaydiscordbot.application.exception.BirthdayExceptions
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -19,6 +21,7 @@ class BirthdayService(
   private val guildConfigService: GuildConfigService
 ) {
 
+  private val log: Logger = LoggerFactory.getLogger(BirthdayService::class.java)
   private val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
   /**
@@ -56,6 +59,8 @@ class BirthdayService(
       birthdayDate.monthValue,
       birthdayDate.dayOfMonth
     )
+
+    log.info("Setting birthday for user {} in guild {} to {}", userId, guildId, formatter.format(birthdayDate))
 
     return birthdayRepository.save(birthday)
   }
@@ -95,6 +100,8 @@ class BirthdayService(
    * @param guildId id of the current guild the user is in
    */
   fun delete(userId: String, guildId: String) {
+    log.info("Deleting birthday for user {} on guild {}", userId, guildId)
+
     val birthdayId = BirthdayId(userId, guildId)
     birthdayRepository.deleteById(birthdayId)
   }
