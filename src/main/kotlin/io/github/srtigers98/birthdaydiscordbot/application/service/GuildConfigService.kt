@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service
  * Service to manage the guild configurations.
  *
  * @author Benjamin Eder
+ * @author Stephan Brunner <s.brunner@stephan-brunner.net>
  */
 @Service
 class GuildConfigService(

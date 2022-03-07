@@ -16,6 +16,7 @@ import org.springframework.scheduling.annotation.EnableScheduling
  * Main class for the bot application.
  *
  * @author Benjamin Eder
+ * @author Stephan Brunner <s.brunner@stephan-brunner.net>
  */
 @SpringBootApplication
 @EnableScheduling

@@ -14,6 +14,7 @@ import java.time.format.DateTimeFormatter
  * Service to read the saved birthdays every day and congratulate the guild member (reminds the other guild members).
  *
  * @author Benjamin Eder
+ * @author Stephan Brunner <s.brunner@stephan-brunner.net>
  */
 @Service
 class ReminderService(

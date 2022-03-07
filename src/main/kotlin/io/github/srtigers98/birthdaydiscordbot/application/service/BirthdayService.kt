@@ -14,6 +14,7 @@ import java.time.format.DateTimeFormatter
  * Service that manages the stored birthdays.
  *
  * @author Benjamin Eder
+ * @author Stephan Brunner <s.brunner@stephan-brunner.net>
  */
 @Service
 class BirthdayService(
