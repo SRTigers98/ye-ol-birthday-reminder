@@ -6,6 +6,9 @@ import dev.kord.common.entity.Snowflake
 import dev.kord.common.entity.optional.Optional
 import dev.kord.rest.json.request.StartThreadRequest
 import dev.kord.rest.service.RestClient
+import io.github.srtigers98.birthdaydiscordbot.application.dto.Birthday
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.runBlocking
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -35,34 +38,36 @@ class ReminderService(
    * The message will be sent to a new thread in the configured birthday channel in the guild.
    */
   @Scheduled(cron = "0 0 12 * * *")
-  fun checkForBirthday() {
+  fun checkForBirthday() = runBlocking {
     val today = LocalDate.now()
 
     log.info("Checking for birthdays on {}", logDateFormatter.format(today))
 
     val birthdays = birthdayService.checkForBirthdayOn(today)
 
-    birthdays.forEach {
-      runBlocking {
-        val channelId = Snowflake(it.guild.birthdayChannelId)
-        val userName = restClient.user.getUser(Snowflake(it.userId)).username
+    birthdays.map {
+      async { sendCongratulation(it, today) }
+    }.awaitAll()
+  }
 
-        val thread = restClient.channel.startThread(
-          channelId, StartThreadRequest(
-            name = "birthday-$userName-${today.year}",
-            autoArchiveDuration = ArchiveDuration.Day,
-            type = Optional.invoke(ChannelType.PublicGuildThread),
-          )
-        )
+  private suspend fun sendCongratulation(birthday: Birthday, today: LocalDate) {
+    val channelId = Snowflake(birthday.guild.birthdayChannelId)
+    val userName = restClient.user.getUser(Snowflake(birthday.userId)).username
 
-        val msg = restClient.channel.createMessage(thread.id) {
-          content = """
-            |Happy Birthday ${it.mention}!
-            |Congratulations to your ${today.year - it.birthdayYear}. birthday!
+    val thread = restClient.channel.startThread(
+      channelId, StartThreadRequest(
+        name = "birthday-$userName-${today.year}",
+        autoArchiveDuration = ArchiveDuration.Day,
+        type = Optional.invoke(ChannelType.PublicGuildThread),
+      )
+    )
+
+    val msg = restClient.channel.createMessage(thread.id) {
+      content = """
+            |Happy Birthday ${birthday.mention}!
+            |Congratulations to your ${today.year - birthday.birthdayYear}. birthday!
           """.trimMargin()
-        }
-        restClient.channel.createReaction(thread.id, msg.id, "\uD83E\uDD73")
-      }
     }
+    restClient.channel.createReaction(thread.id, msg.id, "\uD83E\uDD73")
   }
 }
