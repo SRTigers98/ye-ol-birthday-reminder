@@ -89,5 +89,6 @@ internal class ReminderServiceTest {
     assertThat(startThreadRequest, `is`(notNullValue()))
     assertThat(startThreadRequest.name, `is`("birthday-arthur-${today.year}"))
     assertThat(startThreadRequest.autoArchiveDuration, `is`(ArchiveDuration.Day))
+    assertThat(startThreadRequest.type.value, `is`(ChannelType.PublicGuildThread))
   }
 }

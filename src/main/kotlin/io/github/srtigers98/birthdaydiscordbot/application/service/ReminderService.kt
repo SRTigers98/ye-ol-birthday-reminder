@@ -1,7 +1,9 @@
 package io.github.srtigers98.birthdaydiscordbot.application.service
 
 import dev.kord.common.entity.ArchiveDuration
+import dev.kord.common.entity.ChannelType
 import dev.kord.common.entity.Snowflake
+import dev.kord.common.entity.optional.Optional
 import dev.kord.rest.json.request.StartThreadRequest
 import dev.kord.rest.service.RestClient
 import kotlinx.coroutines.runBlocking
@@ -49,6 +51,7 @@ class ReminderService(
           channelId, StartThreadRequest(
             name = "birthday-$userName-${today.year}",
             autoArchiveDuration = ArchiveDuration.Day,
+            type = Optional.invoke(ChannelType.PublicGuildThread),
           )
         )
 
