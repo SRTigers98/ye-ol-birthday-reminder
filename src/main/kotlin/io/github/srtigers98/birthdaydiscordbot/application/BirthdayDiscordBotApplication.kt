@@ -16,6 +16,7 @@ import org.springframework.scheduling.annotation.EnableScheduling
  * Main class for the bot application.
  *
  * @author Benjamin Eder
+ * @author Stephan Brunner <s.brunner@stephan-brunner.net>
  */
 @SpringBootApplication
 @EnableScheduling
@@ -41,6 +42,8 @@ class BirthdayDiscordBotApplication(
     log.info("Successfully registered ${discordCommands.count()} command(s)!")
 
     kord.on<ChatInputCommandInteractionCreateEvent> {
+      log.info("{}/{} issued command {} on guild {}", interaction.user.username, interaction.user.id, interaction.command.rootName, interaction.data.guildId.asOptional.value)
+
       val command = commands.find { interaction.command.rootName == it.name }
       if (command != null) {
         discordCommands[command.name]?.service?.createInteractionResponse(

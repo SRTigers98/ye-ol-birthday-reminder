@@ -2,17 +2,22 @@ package io.github.srtigers98.birthdaydiscordbot.application.service
 
 import io.github.srtigers98.birthdaydiscordbot.application.dao.GuildConfigRepository
 import io.github.srtigers98.birthdaydiscordbot.application.dto.GuildConfig
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 
 /**
  * Service to manage the guild configurations.
  *
  * @author Benjamin Eder
+ * @author Stephan Brunner <s.brunner@stephan-brunner.net>
  */
 @Service
 class GuildConfigService(
   private val guildConfigRepository: GuildConfigRepository
 ) {
+
+  private val log: Logger = LoggerFactory.getLogger(GuildConfigService::class.java)
 
   /**
    * Saves the given channel as the birthday channel for the given guild.
@@ -23,6 +28,8 @@ class GuildConfigService(
    * @return The saved guild config
    */
   fun selectGuildChannel(guildId: String, channelId: String): GuildConfig {
+    log.info("Setting guild channel for guild {} to channel {}", guildId, channelId)
+
     val guildConfig = GuildConfig(guildId, channelId)
     return guildConfigRepository.save(guildConfig)
   }
