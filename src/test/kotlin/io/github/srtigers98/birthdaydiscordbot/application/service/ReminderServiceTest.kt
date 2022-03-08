@@ -7,6 +7,7 @@ import dev.kord.rest.service.RestClient
 import dev.kord.rest.service.UserService
 import io.github.srtigers98.birthdaydiscordbot.application.dto.Birthday
 import io.github.srtigers98.birthdaydiscordbot.application.dto.GuildConfig
+import io.github.srtigers98.birthdaydiscordbot.application.util.BirthdayNumberUtil
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.CoreMatchers.notNullValue
@@ -60,7 +61,7 @@ internal class ReminderServiceTest {
     whenever(channelService.createMessage(Snowflake("123"), builder = {
       content = """
             |Happy Birthday ${foundBirthdays[0].mention}!
-            |Congratulations to your ${today.year - foundBirthdays[0].birthdayYear}. birthday!
+            |Congratulations to your ${BirthdayNumberUtil.getOrdinalStringForAge(today.year - foundBirthdays[0].birthdayYear)} birthday!
           """.trimMargin()
     }))
       .thenReturn(discordMessage)
@@ -79,7 +80,7 @@ internal class ReminderServiceTest {
       .createMessage(Snowflake("123"), builder = {
         content = """
             |Happy Birthday ${foundBirthdays[0].mention}!
-            |Congratulations to your ${today.year - foundBirthdays[0].birthdayYear}. birthday!
+            |Congratulations to your ${BirthdayNumberUtil.getOrdinalStringForAge(today.year - foundBirthdays[0].birthdayYear)} birthday!
           """.trimMargin()
       })
     verify(channelService, times(1))

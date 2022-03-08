@@ -7,6 +7,7 @@ import dev.kord.common.entity.optional.Optional
 import dev.kord.rest.json.request.StartThreadRequest
 import dev.kord.rest.service.RestClient
 import io.github.srtigers98.birthdaydiscordbot.application.dto.Birthday
+import io.github.srtigers98.birthdaydiscordbot.application.util.BirthdayNumberUtil
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.runBlocking
@@ -53,6 +54,7 @@ class ReminderService(
   private suspend fun sendCongratulation(birthday: Birthday, today: LocalDate) {
     val channelId = Snowflake(birthday.guild.birthdayChannelId)
     val userName = restClient.user.getUser(Snowflake(birthday.userId)).username
+    val userAge = today.year - birthday.birthdayYear
 
     val thread = restClient.channel.startThread(
       channelId, StartThreadRequest(
@@ -65,7 +67,7 @@ class ReminderService(
     val msg = restClient.channel.createMessage(thread.id) {
       content = """
             |Happy Birthday ${birthday.mention}!
-            |Congratulations to your ${today.year - birthday.birthdayYear}. birthday!
+            |Congratulations to your ${BirthdayNumberUtil.getOrdinalStringForAge(userAge)} birthday!
           """.trimMargin()
     }
     restClient.channel.createReaction(thread.id, msg.id, "\uD83E\uDD73")
