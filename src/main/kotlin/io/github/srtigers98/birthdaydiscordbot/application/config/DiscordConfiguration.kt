@@ -2,6 +2,8 @@ package io.github.srtigers98.birthdaydiscordbot.application.config
 
 import dev.kord.core.Kord
 import dev.kord.rest.service.RestClient
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
@@ -30,4 +32,10 @@ class DiscordConfiguration(
    */
   @Bean
   fun restClient(): RestClient = RestClient(token)
+
+  /**
+   * Creates an application scope for the discord bot.
+   */
+  @Bean(name = ["discord-scope"])
+  fun discordScope(): CoroutineScope = CoroutineScope(Dispatchers.Default)
 }
