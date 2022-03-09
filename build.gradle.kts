@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.springframework.boot.gradle.dsl.SpringBootExtension
 
 plugins {
   id("org.springframework.boot") version "2.6.3"
@@ -62,4 +63,8 @@ tasks.jacocoTestReport {
 
 tasks.bootJar {
   archiveFileName.set("${archiveBaseName.get()}.${archiveExtension.get()}")
+}
+
+configure<SpringBootExtension> {
+  buildInfo()
 }

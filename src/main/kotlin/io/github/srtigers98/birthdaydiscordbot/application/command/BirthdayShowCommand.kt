@@ -1,9 +1,7 @@
 package io.github.srtigers98.birthdaydiscordbot.application.command
 
 import dev.kord.common.entity.InteractionResponseType
-import dev.kord.common.entity.optional.Optional
 import dev.kord.core.entity.interaction.ChatInputCommandInteraction
-import dev.kord.rest.json.request.InteractionApplicationCommandCallbackData
 import dev.kord.rest.json.request.InteractionResponseCreateRequest
 import io.github.srtigers98.birthdaydiscordbot.application.exception.BirthdayExceptions
 import io.github.srtigers98.birthdaydiscordbot.application.service.BirthdayService
@@ -27,10 +25,7 @@ class BirthdayShowCommand(
 
     val response = readBirthday(userId, userMention, guildId)
 
-    return InteractionResponseCreateRequest(
-      InteractionResponseType.ChannelMessageWithSource,
-      Optional.invoke(InteractionApplicationCommandCallbackData(content = Optional.invoke(response)))
-    )
+    return this.createResponse(InteractionResponseType.ChannelMessageWithSource, response)
   }
 
   private fun readBirthday(userId: String, userMention: String, guildId: String): String =
