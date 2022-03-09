@@ -1,10 +1,7 @@
 package io.github.srtigers98.birthdaydiscordbot.application.run
 
 import dev.kord.core.Kord
-import dev.kord.core.entity.application.GlobalChatInputCommand
-import dev.kord.core.event.interaction.ChatInputCommandInteractionCreateEvent
-import dev.kord.core.on
-import io.github.srtigers98.birthdaydiscordbot.application.command.BirthdayCommand
+import io.github.srtigers98.birthdaydiscordbot.application.listener.KordListener
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -24,8 +21,7 @@ import org.springframework.stereotype.Component
 class BotStartupRunner(
   @Qualifier("discord-scope") private val scope: CoroutineScope,
   private val kord: Kord,
-  private val commands: List<BirthdayCommand>,
-  @Qualifier("discord-commands") private val discordCommands: List<GlobalChatInputCommand>,
+  private val listener: List<KordListener<*>>,
 ) : ApplicationRunner {
 
   private val log: Logger = LoggerFactory.getLogger(BotStartupRunner::class.java)
@@ -34,25 +30,10 @@ class BotStartupRunner(
    * Starts the discord bot.
    */
   override fun run(args: ApplicationArguments?) {
+    // Setup listener
     runBlocking {
-      // Setup command listener
-      kord.on<ChatInputCommandInteractionCreateEvent> {
-        log.info(
-          "{}/{} issued command {} on guild {}",
-          interaction.user.username,
-          interaction.user.id,
-          interaction.command.rootName,
-          interaction.data.guildId.asOptional.value
-        )
-
-        val command = commands.find { interaction.command.rootName == it.name }
-        val discordCommand = discordCommands.find { interaction.command.rootName == it.name }
-        if (command != null && discordCommand != null) {
-          discordCommand.service.createInteractionResponse(
-            interaction.id, interaction.token, command.handleCommand(interaction)
-          )
-        }
-      }
+      val jobs = listener.map { it.register(kord) }
+      log.info("${jobs.count()} listener(s) were set up!")
     }
 
     // Start the bot
