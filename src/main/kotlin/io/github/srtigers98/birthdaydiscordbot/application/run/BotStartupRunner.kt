@@ -1,6 +1,7 @@
 package io.github.srtigers98.birthdaydiscordbot.application.run
 
 import dev.kord.core.Kord
+import dev.kord.core.entity.application.GlobalChatInputCommand
 import dev.kord.core.event.interaction.ChatInputCommandInteractionCreateEvent
 import dev.kord.core.on
 import io.github.srtigers98.birthdaydiscordbot.application.command.BirthdayCommand
@@ -24,31 +25,16 @@ class BotStartupRunner(
   @Qualifier("discord-scope") private val scope: CoroutineScope,
   private val kord: Kord,
   private val commands: List<BirthdayCommand>,
+  @Qualifier("discord-commands") private val discordCommands: List<GlobalChatInputCommand>,
 ) : ApplicationRunner {
 
   private val log: Logger = LoggerFactory.getLogger(BotStartupRunner::class.java)
 
   /**
    * Starts the discord bot.
-   *
-   * It clears all unused global commands, registers the global bot commands and sets up the event listener for the configured commands.
-   * Finally, it logs into the bot and starts it.
    */
   override fun run(args: ApplicationArguments?) {
     runBlocking {
-      // Remove unused commands
-      kord.rest.interaction.getGlobalApplicationCommands(kord.selfId).forEach {
-        if (commands.find { c -> c.name == it.name } == null) {
-          kord.rest.interaction.deleteGlobalApplicationCommand(it.applicationId, it.id)
-        }
-      }
-
-      // Register bot commands
-      val discordCommands = commands.associate {
-        it.name to kord.createGlobalChatInputCommand(it.name, it.description, it.builder)
-      }.toMap()
-      log.info("Successfully registered ${discordCommands.count()} command(s)!")
-
       // Setup command listener
       kord.on<ChatInputCommandInteractionCreateEvent> {
         log.info(
@@ -60,8 +46,9 @@ class BotStartupRunner(
         )
 
         val command = commands.find { interaction.command.rootName == it.name }
-        if (command != null) {
-          discordCommands[command.name]?.service?.createInteractionResponse(
+        val discordCommand = discordCommands.find { interaction.command.rootName == it.name }
+        if (command != null && discordCommand != null) {
+          discordCommand.service.createInteractionResponse(
             interaction.id, interaction.token, command.handleCommand(interaction)
           )
         }
