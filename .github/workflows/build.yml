@@ -32,7 +32,9 @@ jobs:
       - name: Compile
         run: ./gradlew classes
       - name: Test
-        run: ./gradlew test --info --stacktrace
+        env:
+          BOT_TOKEN: ${{ secrets.TEST_BOT_TOKEN }}
+        run: ./gradlew test --stacktrace
       - name: Build
         run: ./gradlew build -x test
       - name: Boot Jar
