@@ -5,6 +5,7 @@ import io.github.srtigers98.birthdaydiscordbot.application.dto.GuildConfig
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
+import javax.persistence.EntityManager
 
 /**
  * Service to manage the guild configurations.
@@ -14,7 +15,8 @@ import org.springframework.stereotype.Service
  */
 @Service
 class GuildConfigService(
-  private val guildConfigRepository: GuildConfigRepository
+  private val guildConfigRepository: GuildConfigRepository,
+  private val entityManager: EntityManager,
 ) {
 
   private val log: Logger = LoggerFactory.getLogger(GuildConfigService::class.java)
@@ -45,4 +47,21 @@ class GuildConfigService(
   fun getGuildConfig(guildId: String, currentChannelId: String): GuildConfig =
     guildConfigRepository.findById(guildId)
       .orElseGet { GuildConfig(guildId, currentChannelId) }
+
+  /**
+   * Gets all guild configurations from the database.
+   *
+   * @return list of all guild configurations
+   */
+  fun getAllGuildConfigs(): List<GuildConfig> = guildConfigRepository.findAll()
+
+  /**
+   * Deletes the given guild configurations and all associated birthdays.
+   *
+   * @param configs the configurations to delete
+   */
+  fun deleteGuildConfig(vararg configs: GuildConfig) {
+    guildConfigRepository.deleteAll(configs.asList())
+    entityManager.clear()
+  }
 }
