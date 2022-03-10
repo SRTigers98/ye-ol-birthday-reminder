@@ -20,8 +20,8 @@ class CleanupService(
   private val log = LoggerFactory.getLogger(CleanupService::class.java)
 
   /**
-   * Checks once per week the current configured guilds.
-   * If a guild is configured the bot is no member anymore the configuration and birthdays associated with that guild will be deleted.
+   * Checks all guilds in the database.
+   * If a guild is saved in the database, but the bot is no longer a member of this guild, the respective configuration and all birthdays are deleted.
    */
   @Scheduled(cron = "0 0 3 * * SUN")
   fun cleanupDatabase() = runBlocking {
