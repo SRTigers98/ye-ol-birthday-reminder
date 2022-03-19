@@ -31,10 +31,12 @@ jobs:
             ${{ runner.os }}-gradle-caches-
       - name: Compile
         run: ./gradlew classes
-      - name: Test
+      - name: Unit Test
+        run: ./gradlew test --stacktrace
+      - name: Integration Test
         env:
           BOT_TOKEN: ${{ secrets.TEST_BOT_TOKEN }}
-        run: ./gradlew test --stacktrace
+        run: ./gradlew itest --stacktrace
       - name: Build
         run: ./gradlew build -x test
       - name: Boot Jar
