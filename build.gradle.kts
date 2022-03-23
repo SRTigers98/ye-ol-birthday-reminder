@@ -55,6 +55,18 @@ tasks.withType<Test> {
   finalizedBy("jacocoTestReport")
 }
 
+tasks.test {
+  filter {
+    excludeTestsMatching("*IntegrationTest*")
+  }
+}
+
+tasks.create<Test>("itest") {
+  filter {
+    includeTestsMatching("*IntegrationTest*")
+  }
+}
+
 tasks.jacocoTestReport {
   reports {
     xml.required.set(true)
