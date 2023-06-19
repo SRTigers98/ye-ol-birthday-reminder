@@ -8,7 +8,6 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import javax.annotation.PostConstruct
 
 /**
  * Configuration to configure the bot commands.
@@ -22,6 +21,10 @@ class DiscordCommandConfiguration(
 ) {
 
   private val log: Logger = LoggerFactory.getLogger(DiscordCommandConfiguration::class.java)
+
+  init {
+    removeUnusedCommands()
+  }
 
   /**
    * Registers all available bot commands as application commands.
@@ -37,8 +40,7 @@ class DiscordCommandConfiguration(
   /**
    * Deletes all unused application commands.
    */
-  @PostConstruct
-  fun removeUnusedCommands() = runBlocking {
+  final fun removeUnusedCommands() = runBlocking {
     kord.rest.interaction.getGlobalApplicationCommands(kord.selfId).forEach {
       if (commands.find { c -> c.name == it.name } == null) {
         kord.rest.interaction.deleteGlobalApplicationCommand(it.applicationId, it.id)

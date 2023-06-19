@@ -1,8 +1,8 @@
 package io.github.srtigers98.birthdaydiscordbot.application.dto
 
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.Id
+import jakarta.persistence.Column
+import jakarta.persistence.Entity
+import jakarta.persistence.Id
 
 /**
  * Entity class for the configuration of a guild.
