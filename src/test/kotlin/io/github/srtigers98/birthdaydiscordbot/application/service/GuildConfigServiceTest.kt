@@ -12,7 +12,7 @@ import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.*
 import java.util.*
-import javax.persistence.EntityManager
+import jakarta.persistence.EntityManager
 
 @ExtendWith(MockitoExtension::class)
 internal class GuildConfigServiceTest {

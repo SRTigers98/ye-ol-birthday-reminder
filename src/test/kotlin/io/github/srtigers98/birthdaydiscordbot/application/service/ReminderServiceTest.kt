@@ -9,8 +9,8 @@ import io.github.srtigers98.birthdaydiscordbot.application.dto.Birthday
 import io.github.srtigers98.birthdaydiscordbot.application.dto.GuildConfig
 import io.github.srtigers98.birthdaydiscordbot.application.util.BirthdayNumberUtil
 import kotlinx.coroutines.runBlocking
-import org.hamcrest.CoreMatchers.`is`
-import org.hamcrest.CoreMatchers.notNullValue
+import org.hamcrest.CoreMatchers
+import org.hamcrest.CoreMatchers.*
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -54,7 +54,7 @@ internal class ReminderServiceTest {
       .thenReturn("arthur")
     whenever(restClient.channel)
       .thenReturn(channelService)
-    whenever(channelService.startThread(eq(Snowflake("99")), anyOrNull(), anyOrNull()))
+    whenever(channelService.startThread(eq(Snowflake("99")), anyOrNull<StartThreadRequest>(), anyOrNull()))
       .thenReturn(threadChannel)
     whenever(threadChannel.id)
       .thenReturn(Snowflake("123"))
@@ -89,7 +89,7 @@ internal class ReminderServiceTest {
     val startThreadRequest = startThreadCapture.firstValue
     assertThat(startThreadRequest, `is`(notNullValue()))
     assertThat(startThreadRequest.name, `is`("birthday-arthur-${today.year}"))
-    assertThat(startThreadRequest.autoArchiveDuration, `is`(ArchiveDuration.Day))
+    assertThat(startThreadRequest.autoArchiveDuration.value, `is`(ArchiveDuration.Day))
     assertThat(startThreadRequest.type.value, `is`(ChannelType.PublicGuildThread))
   }
 }
