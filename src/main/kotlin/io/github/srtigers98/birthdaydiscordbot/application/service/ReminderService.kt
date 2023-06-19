@@ -59,7 +59,7 @@ class ReminderService(
     val thread = restClient.channel.startThread(
       channelId, StartThreadRequest(
         name = "birthday-$userName-${today.year}",
-        autoArchiveDuration = ArchiveDuration.Day,
+        autoArchiveDuration = Optional.invoke(ArchiveDuration.Day),
         type = Optional.invoke(ChannelType.PublicGuildThread),
       )
     )
