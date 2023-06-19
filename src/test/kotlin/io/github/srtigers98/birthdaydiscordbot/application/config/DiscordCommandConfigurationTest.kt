@@ -21,8 +21,6 @@ internal class DiscordCommandConfigurationTest {
     on { builder } doReturn { }
   }
 
-  private val tested = DiscordCommandConfiguration(kord, listOf(versionCommand))
-
   @Test
   fun removeUnusedCommandsTest() = runBlocking {
     val interactionService: InteractionService = mock()
@@ -48,7 +46,8 @@ internal class DiscordCommandConfigurationTest {
     whenever(interactionService.deleteGlobalApplicationCommand(any(), any()))
       .thenAnswer { }
 
-    tested.removeUnusedCommands()
+    // Invoke via constructor
+    DiscordCommandConfiguration(kord, listOf(versionCommand))
 
     verify(interactionService, times(1))
       .deleteGlobalApplicationCommand(Snowflake("99"), Snowflake("99"))
