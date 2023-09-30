@@ -25,7 +25,7 @@ dependencies {
   implementation("org.postgresql:postgresql")
   implementation("org.jetbrains.kotlin:kotlin-reflect")
   implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-  implementation("dev.kord:kord-core:0.9.0")
+  implementation("dev.kord:kord-core:0.11.1")
 
   developmentOnly("org.springframework.boot:spring-boot-devtools")
 
