@@ -11,6 +11,7 @@ on:
 jobs:
   dependencies:
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
 
     steps:
       - name: Checkout
