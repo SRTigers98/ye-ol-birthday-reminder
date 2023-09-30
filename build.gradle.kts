@@ -2,11 +2,11 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.springframework.boot.gradle.dsl.SpringBootExtension
 
 plugins {
-  id("org.springframework.boot") version "3.1.0"
-  id("io.spring.dependency-management") version "1.1.0"
-  kotlin("jvm") version "1.8.22"
-  kotlin("plugin.spring") version "1.8.22"
-  kotlin("plugin.jpa") version "1.8.22"
+  id("org.springframework.boot") version "3.1.3"
+  id("io.spring.dependency-management") version "1.1.3"
+  kotlin("jvm") version "1.9.10"
+  kotlin("plugin.spring") version "1.9.10"
+  kotlin("plugin.jpa") version "1.9.10"
   id("org.sonarqube") version "4.2.1.3168"
   id("jacoco")
 }
@@ -25,15 +25,17 @@ dependencies {
   implementation("org.postgresql:postgresql")
   implementation("org.jetbrains.kotlin:kotlin-reflect")
   implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-  implementation("dev.kord:kord-core:0.9.0")
+  implementation("dev.kord:kord-core:0.11.1")
 
   developmentOnly("org.springframework.boot:spring-boot-devtools")
 
   runtimeOnly("com.h2database:h2")
 
   testImplementation("org.springframework.boot:spring-boot-starter-test")
-  testImplementation("org.mockito.kotlin:mockito-kotlin:5.0.0")
+  testImplementation("org.mockito.kotlin:mockito-kotlin:5.1.0")
 }
+
+extra["kotlin-coroutines.version"] = "1.7.3"
 
 sonarqube {
   properties {
