@@ -63,7 +63,10 @@ tasks.test {
   }
 }
 
-tasks.create<Test>("itest") {
+tasks.register<Test>("itest") {
+  group = JavaBasePlugin.VERIFICATION_GROUP
+  description = "Run integration tests"
+
   filter {
     includeTestsMatching("*IntegrationTest*")
   }
