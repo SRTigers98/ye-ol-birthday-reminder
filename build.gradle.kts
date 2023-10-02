@@ -19,20 +19,23 @@ repositories {
   mavenCentral()
 }
 
+val kordVersion = "0.11.1"
+val mockitoVersion = "5.1.0"
+
 dependencies {
   implementation("org.springframework.boot:spring-boot-starter-actuator")
   implementation("org.springframework.boot:spring-boot-starter-data-jpa")
   implementation("org.postgresql:postgresql")
   implementation("org.jetbrains.kotlin:kotlin-reflect")
   implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-  implementation("dev.kord:kord-core:0.11.1")
+  implementation("dev.kord:kord-core:$kordVersion")
 
   developmentOnly("org.springframework.boot:spring-boot-devtools")
 
   runtimeOnly("com.h2database:h2")
 
   testImplementation("org.springframework.boot:spring-boot-starter-test")
-  testImplementation("org.mockito.kotlin:mockito-kotlin:5.1.0")
+  testImplementation("org.mockito.kotlin:mockito-kotlin:$mockitoVersion")
 }
 
 extra["kotlin-coroutines.version"] = "1.7.3"
