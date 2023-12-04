@@ -20,7 +20,7 @@ repositories {
 }
 
 val kordVersion = "0.12.0"
-val mockitoVersion = "5.1.0"
+val mockitoVersion = "5.2.1"
 
 dependencies {
   implementation("org.springframework.boot:spring-boot-starter-actuator")
