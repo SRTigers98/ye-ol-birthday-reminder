@@ -19,7 +19,7 @@ repositories {
   mavenCentral()
 }
 
-val kordVersion = "0.13.1"
+val kordVersion = "0.14.0"
 val mockitoVersion = "5.3.1"
 
 dependencies {
