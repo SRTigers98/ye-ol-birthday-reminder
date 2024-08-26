@@ -1,4 +1,6 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 import org.springframework.boot.gradle.dsl.SpringBootExtension
 
 plugins {
@@ -13,7 +15,17 @@ plugins {
 
 group = "io.github.srtigers98.birthdaydiscordbot"
 version = "1.0.0-SNAPSHOT"
-java.sourceCompatibility = JavaVersion.VERSION_17
+
+java {
+  sourceCompatibility = JavaVersion.VERSION_17
+}
+
+kotlin {
+  compilerOptions {
+    apiVersion.set(KotlinVersion.KOTLIN_2_0)
+    jvmTarget.set(JvmTarget.JVM_17)
+  }
+}
 
 repositories {
   mavenCentral()
@@ -48,10 +60,9 @@ sonarqube {
   }
 }
 
-tasks.withType<KotlinCompile> {
-  kotlinOptions {
-    freeCompilerArgs = listOf("-Xjsr305=strict")
-    jvmTarget = "17"
+tasks.named("compileKotlin", KotlinCompilationTask::class.java) {
+  compilerOptions {
+    freeCompilerArgs.add("-Xjsr305=strict")
   }
 }
 
