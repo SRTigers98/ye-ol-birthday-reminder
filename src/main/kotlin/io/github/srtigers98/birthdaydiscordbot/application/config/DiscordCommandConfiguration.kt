@@ -42,7 +42,7 @@ class DiscordCommandConfiguration(
    */
   final fun removeUnusedCommands() = runBlocking {
     kord.rest.interaction.getGlobalApplicationCommands(kord.selfId).forEach {
-      if (commands.find { c -> c.name == it.name } == null) {
+      if (commands.none { c -> c.name == it.name }) {
         kord.rest.interaction.deleteGlobalApplicationCommand(it.applicationId, it.id)
         log.info("Deleted command ${it.name}!")
       }
