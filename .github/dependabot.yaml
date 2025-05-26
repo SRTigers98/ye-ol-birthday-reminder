@@ -6,3 +6,19 @@ updates:
     rebase-strategy: auto
     schedule:
       interval: weekly
+    groups:
+      kotlin-plugins:
+        patterns:
+          - "jvm"
+          - "plugin.spring"
+          - "plugin.jpa"
+  - directory: /
+    package-ecosystem: docker
+    rebase-strategy: auto
+    schedule:
+      interval: weekly
+  - directory: /
+    package-ecosystem: github-actions
+    rebase-strategy: auto
+    schedule:
+      interval: weekly
