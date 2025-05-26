@@ -1,4 +1,4 @@
-FROM openjdk:17 as builder
+FROM openjdk:18 as builder
 
 WORKDIR /opt/birthday-discord-bot
 
@@ -9,7 +9,7 @@ RUN chmod +x ./gradlew
 RUN ./gradlew clean bootJar
 
 
-FROM openjdk:17-alpine
+FROM openjdk:18-alpine
 
 WORKDIR /opt/birthday-discord-bot
 
