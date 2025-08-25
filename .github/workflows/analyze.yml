@@ -37,7 +37,7 @@ jobs:
           key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
           restore-keys: ${{ runner.os }}-gradle-caches-
       - name: Analyze Dependencies
-        uses: mikepenz/gradle-dependency-submission@v0.9.0
+        uses: mikepenz/gradle-dependency-submission@v1.0.0
 
   sonarqube:
     runs-on: ubuntu-latest
