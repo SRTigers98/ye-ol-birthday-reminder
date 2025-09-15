@@ -6,9 +6,9 @@ import org.springframework.boot.gradle.dsl.SpringBootExtension
 plugins {
   id("org.springframework.boot") version "3.5.5"
   id("io.spring.dependency-management") version "1.1.7"
-  kotlin("jvm") version "2.2.10"
-  kotlin("plugin.spring") version "2.2.10"
-  kotlin("plugin.jpa") version "2.2.10"
+  kotlin("jvm") version "2.2.20"
+  kotlin("plugin.spring") version "2.2.20"
+  kotlin("plugin.jpa") version "2.2.20"
   id("org.sonarqube") version "6.3.1.5724"
   id("jacoco")
 }
