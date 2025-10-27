@@ -45,7 +45,7 @@ jobs:
       - name: Boot Jar
         run: ./gradlew clean bootJar
       - name: Upload Boot Jar
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: birthday-discord-bot
           path: build/libs/birthday-discord-bot*.jar
