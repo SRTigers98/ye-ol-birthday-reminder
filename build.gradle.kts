@@ -9,7 +9,7 @@ plugins {
   kotlin("jvm") version "2.2.20"
   kotlin("plugin.spring") version "2.2.20"
   kotlin("plugin.jpa") version "2.2.20"
-  id("org.sonarqube") version "7.0.1.6134"
+  id("org.sonarqube") version "7.1.0.6387"
   id("jacoco")
 }
 
